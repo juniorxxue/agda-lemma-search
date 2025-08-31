@@ -1,0 +1,17 @@
+{
+  "codebases": {
+    "Main Agda": {
+      "description": "Main contextual polymorphic proof development",
+      "path": "/Users/xuxue/Dropbox/research/contextual-polymorphic/proof_core/main_agda/Implicit",
+      "count": 912,
+      "filename": "lemma_index_main_agda.json"
+    },
+    "Spine Variant": {
+      "description": "Spine variant of the main proof development",
+      "path": "/Users/xuxue/Dropbox/research/contextual-polymorphic/proof_variant_spine",
+      "count": 940,
+      "filename": "lemma_index_spine_variant.json"
+    }
+  },
+  "default_codebase": "Main Agda"
+}
