@@ -13,7 +13,7 @@
             background-color: #1e1e1e; color: #d4d4d4; line-height: 1.4;
         }
         
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 1200px; margin: 0 auto; }
         
         h1 { color: #569cd6; margin-bottom: 30px; text-align: center; }
         
@@ -37,12 +37,8 @@
             padding: 20px 0; margin-bottom: 20px; border-bottom: 1px solid #404040;
         }
         
-        .search-controls {
-            display: flex; gap: 10px; align-items: center; margin-bottom: 10px;
-        }
-        
         #searchInput {
-            flex: 1; padding: 12px 16px; font-size: 16px;
+            width: 100%; padding: 12px 16px; font-size: 16px;
             border: 2px solid #404040; border-radius: 8px;
             background-color: #2d2d2d; color: #d4d4d4; font-family: inherit;
             outline: none; transition: border-color 0.2s;
@@ -50,32 +46,9 @@
         
         #searchInput:focus { border-color: #569cd6; }
         
-        .compact-toggle {
-            display: flex; align-items: center; gap: 8px; color: #808080;
-            background-color: #2d2d2d; padding: 8px 12px; border-radius: 6px;
-            border: 1px solid #404040; cursor: pointer; user-select: none;
-            transition: background-color 0.2s;
-        }
-        
-        .compact-toggle:hover { background-color: #3c3c3c; }
-        .compact-toggle.active { background-color: #264f78; color: #fff; }
-        
         .stats { margin: 10px 0; color: #808080; font-size: 14px; }
         
-        /* Responsive grid layout */
-        .results { 
-            display: grid; 
-            gap: 16px; 
-            grid-template-columns: 1fr; 
-        }
-        
-        @media (min-width: 1024px) {
-            .results { grid-template-columns: 1fr 1fr; }
-        }
-        
-        @media (min-width: 1600px) {
-            .results { grid-template-columns: 1fr 1fr 1fr; }
-        }
+        .results { display: grid; gap: 16px; }
         
         .lemma-card {
             background-color: #252526; border: 1px solid #404040; border-radius: 8px;
@@ -86,21 +59,13 @@
             border-color: #569cd6; box-shadow: 0 2px 8px rgba(86, 156, 214, 0.1);
         }
         
-        .lemma-name { color: #dcdcaa; font-weight: bold; font-size: 16px; margin-bottom: 8px; }
+        .lemma-name { color: #dcdcaa; font-weight: bold; font-size: 18px; margin-bottom: 8px; }
         
         .lemma-signature {
             color: #d4d4d4; white-space: pre-wrap; margin-bottom: 12px;
-            background-color: #1e1e1e; padding: 10px; border-radius: 4px;
-            border-left: 3px solid #569cd6; font-size: 13px; line-height: 1.3;
+            background-color: #1e1e1e; padding: 12px; border-radius: 4px;
+            border-left: 3px solid #569cd6;
         }
-        
-        /* Compact view styles */
-        .compact .lemma-card { padding: 10px; }
-        .compact .lemma-name { font-size: 14px; margin-bottom: 6px; }
-        .compact .lemma-signature { 
-            padding: 8px; margin-bottom: 8px; font-size: 12px; line-height: 1.2; 
-        }
-        .compact .lemma-location { font-size: 12px; }
         
         .lemma-location { color: #808080; font-size: 14px; }
         
@@ -117,21 +82,15 @@
         <div class="codebase-selector">
             <label for="codebaseSelect">Codebase:</label>
             <select id="codebaseSelect">
-                <option value="Main Agda">Main Agda (914 lemmas)</option> <option value="Spine Variant">Spine Variant (942 lemmas)</option>
+                <option value="Main Agda">Main Agda (912 lemmas)</option> <option value="Spine Variant">Spine Variant (940 lemmas)</option>
             </select>
             <div class="codebase-info" id="codebaseInfo"></div>
         </div>
         
         <div class="search-container">
-            <div class="search-controls">
-                <input type="text" id="searchInput" 
-                       placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
-                       autocomplete="off">
-                <div class="compact-toggle" id="compactToggle">
-                    <span>📦</span>
-                    <span>Compact</span>
-                </div>
-            </div>
+            <input type="text" id="searchInput" 
+                   placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
+                   autocomplete="off">
             <div class="stats" id="stats">Loading codebases...</div>
         </div>
         
@@ -331,15 +290,6 @@
         
         document.getElementById('codebaseSelect').addEventListener('change', function(e) {
             loadCodebase(e.target.value);
-        });
-        
-        // Compact view toggle
-        document.getElementById('compactToggle').addEventListener('click', function() {
-            const resultsContainer = document.getElementById('results');
-            const toggle = document.getElementById('compactToggle');
-            
-            resultsContainer.classList.toggle('compact');
-            toggle.classList.toggle('active');
         });
         
         // Initialize
