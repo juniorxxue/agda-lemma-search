@@ -9,328 +9,430 @@
         
         body {
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
-            margin: 0; padding: 20px;
+            margin: 0; padding: 0;
             background-color: #1e1e1e; color: #d4d4d4; line-height: 1.4;
+            display: flex; height: 100vh; overflow: hidden;
         }
         
-        .container { max-width: 1200px; margin: 0 auto; }
+        /* Sidebar for Unicode Picker */
+        .sidebar {
+            width: 280px; min-width: 280px;
+            background-color: #252526; border-right: 1px solid #404040;
+            overflow-y: auto; z-index: 200;
+            display: flex; flex-direction: column;
+            transition: width 0.3s ease, min-width 0.3s ease;
+        }
         
-        h1 { color: #569cd6; margin-bottom: 30px; text-align: center; }
+        .sidebar.collapsed {
+            width: 0; min-width: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar-header {
+            padding: 16px; border-bottom: 1px solid #404040;
+            background-color: #2d2d2d; position: sticky; top: 0; z-index: 300;
+        }
+        
+        .sidebar-title {
+            color: #569cd6; font-weight: bold; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 0.5px; margin: 0;
+        }
+        
+        .unicode-picker {
+            padding: 16px; flex: 1; overflow-y: auto;
+        }
+        
+        .unicode-category {
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            color: #569cd6; font-size: 11px; font-weight: bold;
+            margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+            padding-bottom: 4px; border-bottom: 1px solid #404040;
+        }
+        
+        .unicode-symbols {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
+            gap: 4px; margin-top: 8px;
+        }
+        
+        .unicode-symbol {
+            display: flex; align-items: center; justify-content: center;
+            padding: 8px 4px; background-color: #2d2d2d;
+            border: 1px solid #404040; border-radius: 4px; cursor: pointer;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            font-size: 14px; color: #d4d4d4; transition: all 0.2s;
+            min-height: 32px; text-align: center;
+        }
+        
+        .unicode-symbol:hover {
+            background-color: #569cd6; color: #ffffff;
+            border-color: #569cd6; transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(86, 156, 214, 0.3);
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            overflow: hidden; min-width: 0;
+        }
+        
+        .header {
+            background-color: #252526; border-bottom: 1px solid #404040;
+            padding: 16px 20px; position: sticky; top: 0; z-index: 100;
+        }
+        
+        h1 { 
+            color: #569cd6; margin: 0 0 16px 0; font-size: 24px;
+            text-align: left;
+        }
         
         .codebase-selector {
-            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
-            padding: 15px; background-color: #252526; border-radius: 8px; border: 1px solid #404040;
+            display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+            padding: 12px; background-color: #2d2d2d; border-radius: 6px;
+            border: 1px solid #404040;
         }
         
-        .codebase-selector label { color: #569cd6; font-weight: bold; }
+        .codebase-selector label { 
+            color: #569cd6; font-weight: bold; font-size: 14px; 
+        }
         
         #codebaseSelect {
-            flex: 1; padding: 8px 12px; font-size: 14px;
+            flex: 1; padding: 6px 10px; font-size: 13px;
             border: 1px solid #404040; border-radius: 4px;
-            background-color: #2d2d2d; color: #d4d4d4; font-family: inherit;
+            background-color: #1e1e1e; color: #d4d4d4; font-family: inherit;
         }
         
-        .codebase-info { color: #808080; font-size: 14px; margin-top: 5px; }
+        .codebase-info { 
+            color: #808080; font-size: 12px; margin-left: 8px;
+        }
         
         .search-container {
-            position: sticky; top: 0; background-color: #1e1e1e; z-index: 100;
-            padding: 20px 0; margin-bottom: 20px; border-bottom: 1px solid #404040;
+            display: flex; align-items: center; gap: 12px;
+        }
+        
+        .sidebar-toggle {
+            background: none; border: 1px solid #404040; color: #569cd6;
+            padding: 10px 12px; border-radius: 6px; cursor: pointer;
+            font-family: inherit; font-size: 14px; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            min-width: 44px; height: 44px;
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: #569cd6; color: #ffffff;
+            border-color: #569cd6;
+        }
+        
+        .sidebar-toggle:focus {
+            outline: none; box-shadow: 0 0 0 2px rgba(86, 156, 214, 0.4);
         }
         
         #searchInput {
-            width: 100%; padding: 12px 16px; font-size: 16px;
-            border: 2px solid #404040; border-radius: 8px;
-            background-color: #2d2d2d; color: #d4d4d4; font-family: inherit;
+            flex: 1; padding: 10px 14px; font-size: 15px;
+            border: 2px solid #404040; border-radius: 6px;
+            background-color: #1e1e1e; color: #d4d4d4; font-family: inherit;
             outline: none; transition: border-color 0.2s;
         }
         
         #searchInput:focus { border-color: #569cd6; }
         
-        .unicode-picker {
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #252526;
-            border: 1px solid #404040;
-            border-radius: 8px;
-            max-height: 300px;
-            overflow-y: auto;
+        .stats { 
+            color: #808080; font-size: 13px; white-space: nowrap;
+            min-width: 120px; text-align: right;
         }
         
-        .unicode-category {
-            margin-bottom: 12px;
+        /* Results Area */
+        .content-area {
+            flex: 1; overflow-y: auto; padding: 20px;
         }
-        
-        .category-title {
-            color: #569cd6;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .unicode-symbols {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-        
-        .unicode-symbol {
-            display: inline-block;
-            padding: 6px 8px;
-            background-color: #2d2d2d;
-            border: 1px solid #404040;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
-            font-size: 14px;
-            color: #d4d4d4;
-            transition: all 0.2s;
-            min-width: 28px;
-            text-align: center;
-        }
-        
-        .unicode-symbol:hover {
-            background-color: #569cd6;
-            color: #ffffff;
-            border-color: #569cd6;
-            transform: translateY(-1px);
-        }
-        
-        .unicode-toggle {
-            background: none;
-            border: 1px solid #404040;
-            color: #569cd6;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 12px;
-            margin-bottom: 10px;
-            transition: all 0.2s;
-        }
-        
-        .unicode-toggle:hover {
-            background-color: #569cd6;
-            color: #ffffff;
-        }
-        
-        .stats { margin: 10px 0; color: #808080; font-size: 14px; }
         
         .results { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 16px; 
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 12px;
+        }
+        
+        /* Responsive 3-column layout for wide screens */
+        @media (min-width: 1400px) {
+            .results { 
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* 2-column layout for medium screens (like 13" MacBook Air) */
+        @media (min-width: 900px) and (max-width: 1399px) {
+            .results { 
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Single column for smaller screens */
+        @media (max-width: 899px) {
+            .sidebar { width: 240px; min-width: 240px; }
+            .results { 
+                grid-template-columns: 1fr;
+            }
         }
         
         .lemma-card {
-            background-color: #252526; border: 1px solid #404040; border-radius: 8px;
-            padding: 16px; transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #252526; border: 1px solid #404040; border-radius: 6px;
+            padding: 14px; transition: border-color 0.2s, box-shadow 0.2s;
+            min-height: fit-content;
         }
         
         .lemma-card:hover {
             border-color: #569cd6; box-shadow: 0 2px 8px rgba(86, 156, 214, 0.1);
         }
         
-        .lemma-name { color: #dcdcaa; font-weight: bold; font-size: 18px; margin-bottom: 8px; }
-        
-        .lemma-signature {
-            color: #d4d4d4; white-space: pre-wrap; margin-bottom: 12px;
-            background-color: #1e1e1e; padding: 12px; border-radius: 4px;
-            border-left: 3px solid #569cd6;
+        .lemma-name { 
+            color: #dcdcaa; font-weight: bold; font-size: 16px; 
+            margin-bottom: 8px; line-height: 1.3;
+            overflow-wrap: break-word;
         }
         
-        .lemma-location { color: #808080; font-size: 14px; }
+        .lemma-signature {
+            color: #d4d4d4; white-space: pre-wrap; margin-bottom: 10px;
+            background-color: #1e1e1e; padding: 10px; border-radius: 4px;
+            border-left: 3px solid #569cd6; font-size: 13px; line-height: 1.4;
+            overflow-wrap: break-word; word-break: break-all;
+        }
         
-        .no-results { text-align: center; color: #808080; font-style: italic; margin-top: 40px; }
-        .loading { text-align: center; color: #569cd6; margin-top: 40px; }
+        .lemma-location { 
+            color: #808080; font-size: 12px; display: flex;
+            align-items: center; gap: 4px;
+        }
         
-        .highlight { background-color: #264f78; color: #fff; padding: 1px 2px; border-radius: 2px; }
+        .location-icon { color: #569cd6; font-size: 11px; }
+        
+        .no-results { 
+            text-align: center; color: #808080; font-style: italic; 
+            margin-top: 60px; grid-column: 1 / -1;
+        }
+        
+        .loading { 
+            text-align: center; color: #569cd6; margin-top: 60px;
+            grid-column: 1 / -1;
+        }
+        
+        .highlight { 
+            background-color: #264f78; color: #fff; 
+            padding: 1px 2px; border-radius: 2px; 
+        }
+        
+        .results-limit-notice {
+            grid-column: 1 / -1; text-align: center;
+            color: #808080; font-size: 13px; font-style: italic;
+            margin-top: 16px; padding: 12px;
+            background-color: #252526; border-radius: 6px;
+            border: 1px solid #404040;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #2d2d2d; }
+        ::-webkit-scrollbar-thumb { 
+            background: #404040; border-radius: 4px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #569cd6; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔍 Agda Lemma Search</h1>
-        
-        <div class="codebase-selector">
-            <label for="codebaseSelect">Codebase:</label>
-            <select id="codebaseSelect">
-                <option value="Main Agda">Main Agda (912 lemmas)</option> <option value="Spine Variant">Spine Variant (940 lemmas)</option>
-            </select>
-            <div class="codebase-info" id="codebaseInfo"></div>
+    <!-- Sidebar for Unicode Picker -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Unicode Symbols</h3>
         </div>
-        
-        <div class="search-container">
-            <input type="text" id="searchInput" 
-                   placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
-                   autocomplete="off">
-            
-            <button class="unicode-toggle" id="unicodeToggle">Show Unicode Symbols ✨</button>
-            
-            <div class="unicode-picker" id="unicodePicker" style="display: none;">
-                <div class="unicode-category">
-                    <div class="category-title">Greek Letters</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="Γ">Γ</span>
-                        <span class="unicode-symbol" data-symbol="Δ">Δ</span>
-                        <span class="unicode-symbol" data-symbol="Σ">Σ</span>
-                        <span class="unicode-symbol" data-symbol="Ψ">Ψ</span>
-                        <span class="unicode-symbol" data-symbol="Ω">Ω</span>
-                        <span class="unicode-symbol" data-symbol="ε">ε</span>
-                        <span class="unicode-symbol" data-symbol="λ">λ</span>
-                        <span class="unicode-symbol" data-symbol="σ">σ</span>
-                        <span class="unicode-symbol" data-symbol="τ">τ</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Logic & Quantifiers</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="∀">∀</span>
-                        <span class="unicode-symbol" data-symbol="∃">∃</span>
-                        <span class="unicode-symbol" data-symbol="⊢">⊢</span>
-                        <span class="unicode-symbol" data-symbol="⊣">⊣</span>
-                        <span class="unicode-symbol" data-symbol="⊥">⊥</span>
-                        <span class="unicode-symbol" data-symbol="⊨">⊨</span>
-                        <span class="unicode-symbol" data-symbol="¬">¬</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Arrows</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="←">←</span>
-                        <span class="unicode-symbol" data-symbol="↑">↑</span>
-                        <span class="unicode-symbol" data-symbol="→">→</span>
-                        <span class="unicode-symbol" data-symbol="↝">↝</span>
-                        <span class="unicode-symbol" data-symbol="↡">↡</span>
-                        <span class="unicode-symbol" data-symbol="↪">↪</span>
-                        <span class="unicode-symbol" data-symbol="↬">↬</span>
-                        <span class="unicode-symbol" data-symbol="⇌">⇌</span>
-                        <span class="unicode-symbol" data-symbol="⇒">⇒</span>
-                        <span class="unicode-symbol" data-symbol="⇘">⇘</span>
-                        <span class="unicode-symbol" data-symbol="⟶">⟶</span>
-                        <span class="unicode-symbol" data-symbol="⟹">⟹</span>
-                        <span class="unicode-symbol" data-symbol="⟾">⟾</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Set Theory</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="∈">∈</span>
-                        <span class="unicode-symbol" data-symbol="∋">∋</span>
-                        <span class="unicode-symbol" data-symbol="⊆">⊆</span>
-                        <span class="unicode-symbol" data-symbol="⊎">⊎</span>
-                        <span class="unicode-symbol" data-symbol="⊑">⊑</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Equality & Relations</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="≊">≊</span>
-                        <span class="unicode-symbol" data-symbol="≋">≋</span>
-                        <span class="unicode-symbol" data-symbol="≡">≡</span>
-                        <span class="unicode-symbol" data-symbol="≢">≢</span>
-                        <span class="unicode-symbol" data-symbol="≤">≤</span>
-                        <span class="unicode-symbol" data-symbol="≫">≫</span>
-                        <span class="unicode-symbol" data-symbol="≰">≰</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Math Operators</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="×">×</span>
-                        <span class="unicode-symbol" data-symbol="∙">∙</span>
-                        <span class="unicode-symbol" data-symbol="∞">∞</span>
-                        <span class="unicode-symbol" data-symbol="∣">∣</span>
-                        <span class="unicode-symbol" data-symbol="∤">∤</span>
-                        <span class="unicode-symbol" data-symbol="⋆">⋆</span>
-                        <span class="unicode-symbol" data-symbol="⋈">⋈</span>
-                        <span class="unicode-symbol" data-symbol="⨟">⨟</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Brackets & Delimiters</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="⟦">⟦</span>
-                        <span class="unicode-symbol" data-symbol="⟧">⟧</span>
-                        <span class="unicode-symbol" data-symbol="⟨">⟨</span>
-                        <span class="unicode-symbol" data-symbol="⟩">⟩</span>
-                        <span class="unicode-symbol" data-symbol="⌝">⌝</span>
-                        <span class="unicode-symbol" data-symbol="⌞">⌞</span>
-                        <span class="unicode-symbol" data-symbol="⦂">⦂</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Subscripts</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="₀">₀</span>
-                        <span class="unicode-symbol" data-symbol="₁">₁</span>
-                        <span class="unicode-symbol" data-symbol="₂">₂</span>
-                        <span class="unicode-symbol" data-symbol="₃">₃</span>
-                        <span class="unicode-symbol" data-symbol="₄">₄</span>
-                        <span class="unicode-symbol" data-symbol="₅">₅</span>
-                        <span class="unicode-symbol" data-symbol="₊">₊</span>
-                        <span class="unicode-symbol" data-symbol="ₖ">ₖ</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Superscripts</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="²">²</span>
-                        <span class="unicode-symbol" data-symbol="⁺">⁺</span>
-                        <span class="unicode-symbol" data-symbol="⁻">⁻</span>
-                        <span class="unicode-symbol" data-symbol="ʲ">ʲ</span>
-                        <span class="unicode-symbol" data-symbol="ˣ">ˣ</span>
-                        <span class="unicode-symbol" data-symbol="ᵉ">ᵉ</span>
-                        <span class="unicode-symbol" data-symbol="ᵍ">ᵍ</span>
-                        <span class="unicode-symbol" data-symbol="ᶜ">ᶜ</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Math Sets & Types</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="ℕ">ℕ</span>
-                        <span class="unicode-symbol" data-symbol="ⅆ">ⅆ</span>
-                        <span class="unicode-symbol" data-symbol="𝕄">𝕄</span>
-                        <span class="unicode-symbol" data-symbol="𝕔">𝕔</span>
-                        <span class="unicode-symbol" data-symbol="𝕗">𝕗</span>
-                        <span class="unicode-symbol" data-symbol="𝕚">𝕚</span>
-                        <span class="unicode-symbol" data-symbol="𝕛">𝕛</span>
-                        <span class="unicode-symbol" data-symbol="𝕣">𝕣</span>
-                        <span class="unicode-symbol" data-symbol="𝕧">𝕧</span>
-                    </div>
-                </div>
-                
-                <div class="unicode-category">
-                    <div class="category-title">Symbols & Shapes</div>
-                    <div class="unicode-symbols">
-                        <span class="unicode-symbol" data-symbol="□">□</span>
-                        <span class="unicode-symbol" data-symbol="▶">▶</span>
-                        <span class="unicode-symbol" data-symbol="◀">◀</span>
-                        <span class="unicode-symbol" data-symbol="◆">◆</span>
-                        <span class="unicode-symbol" data-symbol="◇">◇</span>
-                        <span class="unicode-symbol" data-symbol="◈">◈</span>
-                        <span class="unicode-symbol" data-symbol="◎">◎</span>
-                        <span class="unicode-symbol" data-symbol="✫">✫</span>
-                        <span class="unicode-symbol" data-symbol="⓪">⓪</span>
-                        <span class="unicode-symbol" data-symbol="‶">‶</span>
-                    </div>
+        <div class="unicode-picker">
+            <div class="unicode-category">
+                <div class="category-title">Greek Letters</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="Γ">Γ</span>
+                    <span class="unicode-symbol" data-symbol="Δ">Δ</span>
+                    <span class="unicode-symbol" data-symbol="Σ">Σ</span>
+                    <span class="unicode-symbol" data-symbol="Ψ">Ψ</span>
+                    <span class="unicode-symbol" data-symbol="Ω">Ω</span>
+                    <span class="unicode-symbol" data-symbol="ε">ε</span>
+                    <span class="unicode-symbol" data-symbol="λ">λ</span>
+                    <span class="unicode-symbol" data-symbol="σ">σ</span>
+                    <span class="unicode-symbol" data-symbol="τ">τ</span>
                 </div>
             </div>
             
-            <div class="stats" id="stats">Loading codebases...</div>
+            <div class="unicode-category">
+                <div class="category-title">Logic & Quantifiers</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="∀">∀</span>
+                    <span class="unicode-symbol" data-symbol="∃">∃</span>
+                    <span class="unicode-symbol" data-symbol="⊢">⊢</span>
+                    <span class="unicode-symbol" data-symbol="⊣">⊣</span>
+                    <span class="unicode-symbol" data-symbol="⊥">⊥</span>
+                    <span class="unicode-symbol" data-symbol="⊨">⊨</span>
+                    <span class="unicode-symbol" data-symbol="¬">¬</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Arrows</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="←">←</span>
+                    <span class="unicode-symbol" data-symbol="↑">↑</span>
+                    <span class="unicode-symbol" data-symbol="→">→</span>
+                    <span class="unicode-symbol" data-symbol="↝">↝</span>
+                    <span class="unicode-symbol" data-symbol="↡">↡</span>
+                    <span class="unicode-symbol" data-symbol="↪">↪</span>
+                    <span class="unicode-symbol" data-symbol="↬">↬</span>
+                    <span class="unicode-symbol" data-symbol="⇌">⇌</span>
+                    <span class="unicode-symbol" data-symbol="⇒">⇒</span>
+                    <span class="unicode-symbol" data-symbol="⇘">⇘</span>
+                    <span class="unicode-symbol" data-symbol="⟶">⟶</span>
+                    <span class="unicode-symbol" data-symbol="⟹">⟹</span>
+                    <span class="unicode-symbol" data-symbol="⟾">⟾</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Set Theory</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="∈">∈</span>
+                    <span class="unicode-symbol" data-symbol="∋">∋</span>
+                    <span class="unicode-symbol" data-symbol="⊆">⊆</span>
+                    <span class="unicode-symbol" data-symbol="⊎">⊎</span>
+                    <span class="unicode-symbol" data-symbol="⊑">⊑</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Equality & Relations</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="≊">≊</span>
+                    <span class="unicode-symbol" data-symbol="≋">≋</span>
+                    <span class="unicode-symbol" data-symbol="≡">≡</span>
+                    <span class="unicode-symbol" data-symbol="≢">≢</span>
+                    <span class="unicode-symbol" data-symbol="≤">≤</span>
+                    <span class="unicode-symbol" data-symbol="≫">≫</span>
+                    <span class="unicode-symbol" data-symbol="≰">≰</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Math Operators</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="×">×</span>
+                    <span class="unicode-symbol" data-symbol="∙">∙</span>
+                    <span class="unicode-symbol" data-symbol="∞">∞</span>
+                    <span class="unicode-symbol" data-symbol="∣">∣</span>
+                    <span class="unicode-symbol" data-symbol="∤">∤</span>
+                    <span class="unicode-symbol" data-symbol="⋆">⋆</span>
+                    <span class="unicode-symbol" data-symbol="⋈">⋈</span>
+                    <span class="unicode-symbol" data-symbol="⨟">⨟</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Brackets & Delimiters</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="⟦">⟦</span>
+                    <span class="unicode-symbol" data-symbol="⟧">⟧</span>
+                    <span class="unicode-symbol" data-symbol="⟨">⟨</span>
+                    <span class="unicode-symbol" data-symbol="⟩">⟩</span>
+                    <span class="unicode-symbol" data-symbol="⌝">⌝</span>
+                    <span class="unicode-symbol" data-symbol="⌞">⌞</span>
+                    <span class="unicode-symbol" data-symbol="⦂">⦂</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Subscripts</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="₀">₀</span>
+                    <span class="unicode-symbol" data-symbol="₁">₁</span>
+                    <span class="unicode-symbol" data-symbol="₂">₂</span>
+                    <span class="unicode-symbol" data-symbol="₃">₃</span>
+                    <span class="unicode-symbol" data-symbol="₄">₄</span>
+                    <span class="unicode-symbol" data-symbol="₅">₅</span>
+                    <span class="unicode-symbol" data-symbol="₊">₊</span>
+                    <span class="unicode-symbol" data-symbol="ₖ">ₖ</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Superscripts</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="²">²</span>
+                    <span class="unicode-symbol" data-symbol="⁺">⁺</span>
+                    <span class="unicode-symbol" data-symbol="⁻">⁻</span>
+                    <span class="unicode-symbol" data-symbol="ʲ">ʲ</span>
+                    <span class="unicode-symbol" data-symbol="ˣ">ˣ</span>
+                    <span class="unicode-symbol" data-symbol="ᵉ">ᵉ</span>
+                    <span class="unicode-symbol" data-symbol="ᵍ">ᵍ</span>
+                    <span class="unicode-symbol" data-symbol="ᶜ">ᶜ</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Math Sets & Types</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="ℕ">ℕ</span>
+                    <span class="unicode-symbol" data-symbol="ⅆ">ⅆ</span>
+                    <span class="unicode-symbol" data-symbol="𝕄">𝕄</span>
+                    <span class="unicode-symbol" data-symbol="𝕔">𝕔</span>
+                    <span class="unicode-symbol" data-symbol="𝕗">𝕗</span>
+                    <span class="unicode-symbol" data-symbol="𝕚">𝕚</span>
+                    <span class="unicode-symbol" data-symbol="𝕛">𝕛</span>
+                    <span class="unicode-symbol" data-symbol="𝕣">𝕣</span>
+                    <span class="unicode-symbol" data-symbol="𝕧">𝕧</span>
+                </div>
+            </div>
+            
+            <div class="unicode-category">
+                <div class="category-title">Symbols & Shapes</div>
+                <div class="unicode-symbols">
+                    <span class="unicode-symbol" data-symbol="□">□</span>
+                    <span class="unicode-symbol" data-symbol="▶">▶</span>
+                    <span class="unicode-symbol" data-symbol="◀">◀</span>
+                    <span class="unicode-symbol" data-symbol="◆">◆</span>
+                    <span class="unicode-symbol" data-symbol="◇">◇</span>
+                    <span class="unicode-symbol" data-symbol="◈">◈</span>
+                    <span class="unicode-symbol" data-symbol="◎">◎</span>
+                    <span class="unicode-symbol" data-symbol="✫">✫</span>
+                    <span class="unicode-symbol" data-symbol="⓪">⓪</span>
+                    <span class="unicode-symbol" data-symbol="‶">‶</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="header">
+            <h1>🔍 Agda Lemma Search</h1>
+            
+            <div class="codebase-selector">
+                <label for="codebaseSelect">Codebase:</label>
+                <select id="codebaseSelect">
+                    <option value="Main Agda">Main Agda (912 lemmas)</option> 
+                    <option value="Spine Variant">Spine Variant (940 lemmas)</option>
+                </select>
+                <div class="codebase-info" id="codebaseInfo"></div>
+            </div>
+            
+            <div class="search-container">
+                <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Unicode Sidebar">
+                    ◐
+                </button>
+                <input type="text" id="searchInput" 
+                       placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
+                       autocomplete="off">
+                <div class="stats" id="stats">Loading codebases...</div>
+            </div>
         </div>
         
-        <div class="results" id="results">
-            <div class="loading">Loading lemma indices...</div>
+        <div class="content-area">
+            <div class="results" id="results">
+                <div class="loading">Loading lemma indices...</div>
+            </div>
         </div>
     </div>
 
@@ -479,7 +581,7 @@
                 return;
             }
             
-            resultsContainer.innerHTML = results.slice(0, 50).map(lemma => {
+            const cardsHtml = results.slice(0, 50).map(lemma => {
                 const highlightedName = highlightText(lemma.name, query);
                 const highlightedSignature = highlightText(lemma.signature, query);
                 
@@ -487,10 +589,18 @@
                     <div class="lemma-card">
                         <div class="lemma-name">${highlightedName}</div>
                         <div class="lemma-signature">${highlightedSignature}</div>
-                        <div class="lemma-location">📁 ${lemma.file}:${lemma.line}</div>
+                        <div class="lemma-location">
+                            <span class="location-icon">📁</span>
+                            ${lemma.file}:${lemma.line}
+                        </div>
                     </div>
                 `;
-            }).join('') + (results.length > 50 ? `<div class="stats">Showing first 50 of ${results.length} results</div>` : '');
+            }).join('');
+            
+            const limitNotice = results.length > 50 ? 
+                `<div class="results-limit-notice">Showing first 50 of ${results.length} results</div>` : '';
+            
+            resultsContainer.innerHTML = cardsHtml + limitNotice;
         }
         
         function highlightText(text, query) {
@@ -521,22 +631,39 @@
             if (e.key === 'Escape') {
                 this.value = ''; performSearch(); this.blur();
             }
+            // Toggle sidebar with Ctrl/Cmd + B
+            if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+                e.preventDefault();
+                sidebarToggle.click();
+            }
         });
         
         document.getElementById('codebaseSelect').addEventListener('change', function(e) {
             loadCodebase(e.target.value);
         });
         
-        // Unicode picker functionality
-        const unicodeToggle = document.getElementById('unicodeToggle');
-        const unicodePicker = document.getElementById('unicodePicker');
-        const searchInput = document.getElementById('searchInput');
+        // Sidebar toggle functionality
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        let sidebarCollapsed = false;
         
-        unicodeToggle.addEventListener('click', function() {
-            const isVisible = unicodePicker.style.display !== 'none';
-            unicodePicker.style.display = isVisible ? 'none' : 'block';
-            unicodeToggle.textContent = isVisible ? 'Show Unicode Symbols ✨' : 'Hide Unicode Symbols ⬆️';
+        sidebarToggle.addEventListener('click', function() {
+            sidebarCollapsed = !sidebarCollapsed;
+            
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                sidebarToggle.textContent = '◑';
+                sidebarToggle.title = 'Show Unicode Sidebar';
+            } else {
+                sidebar.classList.remove('collapsed');
+                sidebarToggle.textContent = '◐';
+                sidebarToggle.title = 'Hide Unicode Sidebar';
+            }
         });
+        
+        // Unicode picker functionality
+        const unicodePicker = document.querySelector('.unicode-picker');
+        const searchInput = document.getElementById('searchInput');
         
         // Add click handlers for all unicode symbols
         unicodePicker.addEventListener('click', function(e) {
