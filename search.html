@@ -46,9 +46,82 @@
         
         #searchInput:focus { border-color: #569cd6; }
         
+        .unicode-picker {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #252526;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .unicode-category {
+            margin-bottom: 12px;
+        }
+        
+        .category-title {
+            color: #569cd6;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .unicode-symbols {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .unicode-symbol {
+            display: inline-block;
+            padding: 6px 8px;
+            background-color: #2d2d2d;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            font-size: 14px;
+            color: #d4d4d4;
+            transition: all 0.2s;
+            min-width: 28px;
+            text-align: center;
+        }
+        
+        .unicode-symbol:hover {
+            background-color: #569cd6;
+            color: #ffffff;
+            border-color: #569cd6;
+            transform: translateY(-1px);
+        }
+        
+        .unicode-toggle {
+            background: none;
+            border: 1px solid #404040;
+            color: #569cd6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        
+        .unicode-toggle:hover {
+            background-color: #569cd6;
+            color: #ffffff;
+        }
+        
         .stats { margin: 10px 0; color: #808080; font-size: 14px; }
         
-        .results { display: grid; gap: 16px; }
+        .results { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 16px; 
+        }
         
         .lemma-card {
             background-color: #252526; border: 1px solid #404040; border-radius: 8px;
@@ -91,6 +164,168 @@
             <input type="text" id="searchInput" 
                    placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
                    autocomplete="off">
+            
+            <button class="unicode-toggle" id="unicodeToggle">Show Unicode Symbols ✨</button>
+            
+            <div class="unicode-picker" id="unicodePicker" style="display: none;">
+                <div class="unicode-category">
+                    <div class="category-title">Greek Letters</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="Γ">Γ</span>
+                        <span class="unicode-symbol" data-symbol="Δ">Δ</span>
+                        <span class="unicode-symbol" data-symbol="Σ">Σ</span>
+                        <span class="unicode-symbol" data-symbol="Ψ">Ψ</span>
+                        <span class="unicode-symbol" data-symbol="Ω">Ω</span>
+                        <span class="unicode-symbol" data-symbol="ε">ε</span>
+                        <span class="unicode-symbol" data-symbol="λ">λ</span>
+                        <span class="unicode-symbol" data-symbol="σ">σ</span>
+                        <span class="unicode-symbol" data-symbol="τ">τ</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Logic & Quantifiers</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="∀">∀</span>
+                        <span class="unicode-symbol" data-symbol="∃">∃</span>
+                        <span class="unicode-symbol" data-symbol="⊢">⊢</span>
+                        <span class="unicode-symbol" data-symbol="⊣">⊣</span>
+                        <span class="unicode-symbol" data-symbol="⊥">⊥</span>
+                        <span class="unicode-symbol" data-symbol="⊨">⊨</span>
+                        <span class="unicode-symbol" data-symbol="¬">¬</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Arrows</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="←">←</span>
+                        <span class="unicode-symbol" data-symbol="↑">↑</span>
+                        <span class="unicode-symbol" data-symbol="→">→</span>
+                        <span class="unicode-symbol" data-symbol="↝">↝</span>
+                        <span class="unicode-symbol" data-symbol="↡">↡</span>
+                        <span class="unicode-symbol" data-symbol="↪">↪</span>
+                        <span class="unicode-symbol" data-symbol="↬">↬</span>
+                        <span class="unicode-symbol" data-symbol="⇌">⇌</span>
+                        <span class="unicode-symbol" data-symbol="⇒">⇒</span>
+                        <span class="unicode-symbol" data-symbol="⇘">⇘</span>
+                        <span class="unicode-symbol" data-symbol="⟶">⟶</span>
+                        <span class="unicode-symbol" data-symbol="⟹">⟹</span>
+                        <span class="unicode-symbol" data-symbol="⟾">⟾</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Set Theory</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="∈">∈</span>
+                        <span class="unicode-symbol" data-symbol="∋">∋</span>
+                        <span class="unicode-symbol" data-symbol="⊆">⊆</span>
+                        <span class="unicode-symbol" data-symbol="⊎">⊎</span>
+                        <span class="unicode-symbol" data-symbol="⊑">⊑</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Equality & Relations</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="≊">≊</span>
+                        <span class="unicode-symbol" data-symbol="≋">≋</span>
+                        <span class="unicode-symbol" data-symbol="≡">≡</span>
+                        <span class="unicode-symbol" data-symbol="≢">≢</span>
+                        <span class="unicode-symbol" data-symbol="≤">≤</span>
+                        <span class="unicode-symbol" data-symbol="≫">≫</span>
+                        <span class="unicode-symbol" data-symbol="≰">≰</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Math Operators</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="×">×</span>
+                        <span class="unicode-symbol" data-symbol="∙">∙</span>
+                        <span class="unicode-symbol" data-symbol="∞">∞</span>
+                        <span class="unicode-symbol" data-symbol="∣">∣</span>
+                        <span class="unicode-symbol" data-symbol="∤">∤</span>
+                        <span class="unicode-symbol" data-symbol="⋆">⋆</span>
+                        <span class="unicode-symbol" data-symbol="⋈">⋈</span>
+                        <span class="unicode-symbol" data-symbol="⨟">⨟</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Brackets & Delimiters</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="⟦">⟦</span>
+                        <span class="unicode-symbol" data-symbol="⟧">⟧</span>
+                        <span class="unicode-symbol" data-symbol="⟨">⟨</span>
+                        <span class="unicode-symbol" data-symbol="⟩">⟩</span>
+                        <span class="unicode-symbol" data-symbol="⌝">⌝</span>
+                        <span class="unicode-symbol" data-symbol="⌞">⌞</span>
+                        <span class="unicode-symbol" data-symbol="⦂">⦂</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Subscripts</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="₀">₀</span>
+                        <span class="unicode-symbol" data-symbol="₁">₁</span>
+                        <span class="unicode-symbol" data-symbol="₂">₂</span>
+                        <span class="unicode-symbol" data-symbol="₃">₃</span>
+                        <span class="unicode-symbol" data-symbol="₄">₄</span>
+                        <span class="unicode-symbol" data-symbol="₅">₅</span>
+                        <span class="unicode-symbol" data-symbol="₊">₊</span>
+                        <span class="unicode-symbol" data-symbol="ₖ">ₖ</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Superscripts</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="²">²</span>
+                        <span class="unicode-symbol" data-symbol="⁺">⁺</span>
+                        <span class="unicode-symbol" data-symbol="⁻">⁻</span>
+                        <span class="unicode-symbol" data-symbol="ʲ">ʲ</span>
+                        <span class="unicode-symbol" data-symbol="ˣ">ˣ</span>
+                        <span class="unicode-symbol" data-symbol="ᵉ">ᵉ</span>
+                        <span class="unicode-symbol" data-symbol="ᵍ">ᵍ</span>
+                        <span class="unicode-symbol" data-symbol="ᶜ">ᶜ</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Math Sets & Types</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="ℕ">ℕ</span>
+                        <span class="unicode-symbol" data-symbol="ⅆ">ⅆ</span>
+                        <span class="unicode-symbol" data-symbol="𝕄">𝕄</span>
+                        <span class="unicode-symbol" data-symbol="𝕔">𝕔</span>
+                        <span class="unicode-symbol" data-symbol="𝕗">𝕗</span>
+                        <span class="unicode-symbol" data-symbol="𝕚">𝕚</span>
+                        <span class="unicode-symbol" data-symbol="𝕛">𝕛</span>
+                        <span class="unicode-symbol" data-symbol="𝕣">𝕣</span>
+                        <span class="unicode-symbol" data-symbol="𝕧">𝕧</span>
+                    </div>
+                </div>
+                
+                <div class="unicode-category">
+                    <div class="category-title">Symbols & Shapes</div>
+                    <div class="unicode-symbols">
+                        <span class="unicode-symbol" data-symbol="□">□</span>
+                        <span class="unicode-symbol" data-symbol="▶">▶</span>
+                        <span class="unicode-symbol" data-symbol="◀">◀</span>
+                        <span class="unicode-symbol" data-symbol="◆">◆</span>
+                        <span class="unicode-symbol" data-symbol="◇">◇</span>
+                        <span class="unicode-symbol" data-symbol="◈">◈</span>
+                        <span class="unicode-symbol" data-symbol="◎">◎</span>
+                        <span class="unicode-symbol" data-symbol="✫">✫</span>
+                        <span class="unicode-symbol" data-symbol="⓪">⓪</span>
+                        <span class="unicode-symbol" data-symbol="‶">‶</span>
+                    </div>
+                </div>
+            </div>
+            
             <div class="stats" id="stats">Loading codebases...</div>
         </div>
         
@@ -291,6 +526,41 @@
         document.getElementById('codebaseSelect').addEventListener('change', function(e) {
             loadCodebase(e.target.value);
         });
+        
+        // Unicode picker functionality
+        const unicodeToggle = document.getElementById('unicodeToggle');
+        const unicodePicker = document.getElementById('unicodePicker');
+        const searchInput = document.getElementById('searchInput');
+        
+        unicodeToggle.addEventListener('click', function() {
+            const isVisible = unicodePicker.style.display !== 'none';
+            unicodePicker.style.display = isVisible ? 'none' : 'block';
+            unicodeToggle.textContent = isVisible ? 'Show Unicode Symbols ✨' : 'Hide Unicode Symbols ⬆️';
+        });
+        
+        // Add click handlers for all unicode symbols
+        unicodePicker.addEventListener('click', function(e) {
+            if (e.target.classList.contains('unicode-symbol')) {
+                const symbol = e.target.getAttribute('data-symbol');
+                insertUnicodeSymbol(symbol);
+            }
+        });
+        
+        function insertUnicodeSymbol(symbol) {
+            const cursorPos = searchInput.selectionStart;
+            const currentValue = searchInput.value;
+            const newValue = currentValue.slice(0, cursorPos) + symbol + currentValue.slice(searchInput.selectionEnd);
+            
+            searchInput.value = newValue;
+            searchInput.focus();
+            
+            // Set cursor position after the inserted symbol
+            const newCursorPos = cursorPos + symbol.length;
+            searchInput.setSelectionRange(newCursorPos, newCursorPos);
+            
+            // Trigger search
+            performSearch();
+        }
         
         // Initialize
         loadCodebaseMetadata();
