@@ -129,6 +129,11 @@
             outline: none; box-shadow: 0 0 0 2px rgba(86, 156, 214, 0.4);
         }
         
+        .sidebar-toggle.active {
+            background-color: #569cd6; color: #ffffff;
+            border-color: #569cd6;
+        }
+        
         #searchInput {
             flex: 1; padding: 10px 14px; font-size: 15px;
             border: 2px solid #404040; border-radius: 6px;
@@ -240,7 +245,7 @@
 </head>
 <body>
     <!-- Sidebar for Unicode Picker -->
-    <div class="sidebar">
+    <div class="sidebar collapsed">
         <div class="sidebar-header">
             <h3 class="sidebar-title">Unicode Symbols</h3>
         </div>
@@ -419,8 +424,8 @@
             </div>
             
             <div class="search-container">
-                <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Unicode Sidebar">
-                    ◐
+                <button class="sidebar-toggle" id="sidebarToggle" title="Show Unicode Sidebar">
+                    ◑
                 </button>
                 <input type="text" id="searchInput" 
                        placeholder="Search lemmas... (use spaces for multiple terms, e.g., 'regular =⟹')"
@@ -645,19 +650,28 @@
         // Sidebar toggle functionality
         const sidebar = document.querySelector('.sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
-        let sidebarCollapsed = false;
+        let sidebarCollapsed = true; // Start collapsed
+        
+        // Set initial button state
+        sidebarToggle.textContent = '◑';
+        sidebarToggle.title = 'Show Unicode Sidebar';
+        sidebarToggle.classList.remove('active');
         
         sidebarToggle.addEventListener('click', function() {
             sidebarCollapsed = !sidebarCollapsed;
             
             if (sidebarCollapsed) {
+                // Collapse sidebar
                 sidebar.classList.add('collapsed');
                 sidebarToggle.textContent = '◑';
                 sidebarToggle.title = 'Show Unicode Sidebar';
+                sidebarToggle.classList.remove('active');
             } else {
+                // Expand sidebar
                 sidebar.classList.remove('collapsed');
                 sidebarToggle.textContent = '◐';
                 sidebarToggle.title = 'Hide Unicode Sidebar';
+                sidebarToggle.classList.add('active');
             }
         });
         
