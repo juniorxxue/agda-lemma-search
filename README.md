@@ -1,6 +1,16 @@
-# Agda Lemma Search - Multi-codebase
+# Agda Lemma Search
 
-A fast, intelligent search tool for Agda lemmas with fuzzy matching, smart ranking, and support for multiple codebases.
+A simple agda tool to search your lemmas.
+
+## Disclamer
+
+* It's all AI-written, please do not trust the code too much.
+
+* The parsing logic is very ad-hoc, based on heuristics of my Agda coding style.
+
+* Unicode picker is only tailored by my own habit, will make it smarter later.
+
+* It's very useful for my case, I have a big agda project to work on with 1000+ lemmas I cannot remember all their names and shapes.
 
 ## Quick Start
 
@@ -37,7 +47,7 @@ A fast, intelligent search tool for Agda lemmas with fuzzy matching, smart ranki
 4. **Search lemmas:**
    - Select codebase from dropdown
    - Single term: `strengthen`
-   - Multiple terms: `regular =⟹` (finds lemmas containing both)
+   - Multiple terms: `regular ⟹` (finds lemmas containing both)
    - First term gets higher weight in ranking
 
 ## Files
@@ -48,43 +58,3 @@ A fast, intelligent search tool for Agda lemmas with fuzzy matching, smart ranki
 - **`build-index.py`** - Script to build indices for all codebases
 - **`codebases.json`** - Generated metadata about available codebases
 - **`lemma_index_*.json`** - Individual indices for each codebase
-
-## Adding New Codebases
-
-1. Edit `config.json` to add new entries:
-   ```json
-   {
-     "codebases": [
-       {
-         "nickname": "New Project",
-         "path": "/path/to/new/agda/project",
-         "description": "Description of the project"
-       }
-     ]
-   }
-   ```
-
-2. Rebuild indices:
-   ```bash
-   python3 build-index.py
-   ```
-
-3. Refresh the search interface - new codebase will appear in dropdown
-
-## Features
-
-- **Multi-codebase Support**: Switch between different Agda projects instantly
-- **Smart Ranking**: Lemma names weighted higher than signatures
-- **Multi-term Search**: Space-separated terms (all must match)
-- **Position-based Scoring**: Earlier matches in names rank higher
-- **Constructor Filtering**: Excludes data constructors and record fields
-- **Real-time Search**: Instant results as you type
-- **Unicode Support**: Handles Agda symbols (⊢, ∀, →, etc.)
-
-## Search Tips
-
-- Use the dropdown to switch between codebases
-- Search "sub" to find substitution lemmas
-- Search "regular =" to find regularity lemmas with equality
-- First keyword gets higher priority in ranking
-- Use specific terms for better results
