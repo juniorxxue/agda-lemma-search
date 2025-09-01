@@ -233,18 +233,18 @@ def extract_lemma_name(lemma_text):
     return None
 
 def create_multi_codebase_search_html(output_dir, combined_data):
-    """Create the enhanced HTML search interface using existing search.html as template"""
+    """Create the enhanced HTML search interface using existing index.html as template"""
     
-    # Use the existing search.html as template
-    template_path = output_dir / "search.html"
+    # Use the existing index.html as template
+    template_path = output_dir / "index.html"
     
     # Check if template exists
     if not template_path.exists():
         print(f"❌ Error: Template file {template_path} not found!")
-        print("Please ensure your updated search.html file exists before running the build script.")
+        print("Please ensure your updated index.html file exists before running the build script.")
         return None
     
-    # Read the existing search.html
+    # Read the existing index.html
     with open(template_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
     
@@ -271,7 +271,7 @@ def create_multi_codebase_search_html(output_dir, combined_data):
     updated_html = re.sub(select_pattern, replace_options, html_content, flags=re.DOTALL)
     
     # Create a backup of the original file if it's different
-    backup_path = output_dir / "search.html.backup"
+    backup_path = output_dir / "index.html.backup"
     if html_content != updated_html:
         with open(backup_path, 'w', encoding='utf-8') as f:
             f.write(html_content)

@@ -16,15 +16,15 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
     
-    # Check if search.html exists
-    if not os.path.exists('search.html'):
-        print("❌ Error: search.html not found!")
+    # Check if index.html exists
+    if not os.path.exists('index.html'):
+        print("❌ Error: index.html not found!")
         print("Make sure you're running this from the agda-search directory.")
         sys.exit(1)
     
     print("🚀 Starting Agda Lemma Search...")
     print(f"📁 Serving from: {script_dir}")
-    print(f"🌐 URL: http://localhost:{PORT}/search.html")
+    print(f"🌐 URL: http://localhost:{PORT}/index.html")
     print("Press Ctrl+C to stop the server")
     
     try:
@@ -32,7 +32,7 @@ def main():
             print(f"✅ Server running on port {PORT}")
             
             # Open browser
-            webbrowser.open(f'http://localhost:{PORT}/search.html')
+            webbrowser.open(f'http://localhost:{PORT}/index.html')
             
             httpd.serve_forever()
             

@@ -32,7 +32,7 @@ A fast, intelligent search tool for Agda lemmas with fuzzy matching, smart ranki
    ```bash
    python3 serve.py
    ```
-   This opens http://localhost:8002/search.html in your browser.
+   This opens http://localhost:8002/index.html in your browser.
 
 4. **Search lemmas:**
    - Select codebase from dropdown
@@ -43,7 +43,7 @@ A fast, intelligent search tool for Agda lemmas with fuzzy matching, smart ranki
 ## Files
 
 - **`config.json`** - Configuration with codebase paths and nicknames
-- **`search.html`** - Multi-codebase web search interface
+- **`index.html`** - Multi-codebase web search interface
 - **`serve.py`** - HTTP server to launch the search  
 - **`build-index.py`** - Script to build indices for all codebases
 - **`codebases.json`** - Generated metadata about available codebases

@@ -1,16 +1,6 @@
 {
   "codebases": [
     {
-      "nickname": "Main Agda",
-      "path": "/Users/xuxue/Dropbox/research/contextual-polymorphic/proof_core/main_agda/Implicit",
-      "description": "Main contextual polymorphic proof development"
-    },
-    {
-      "nickname": "Spine Variant",
-      "path": "/Users/xuxue/Dropbox/research/contextual-polymorphic/proof_variant_spine",
-      "description": "Spine variant of the main proof development"
-    },
-    {
       "nickname": "Agda Standard Library",
       "path": "/Users/xuxue/.agda/agda-stdlib/src",
       "description": "Standard library for Agda"
